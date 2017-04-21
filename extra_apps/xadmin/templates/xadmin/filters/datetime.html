@@ -1,0 +1,58 @@
+{% load i18n %}
+<li class="dropdown-submenu filter-date">
+  <a><i class="fa fa-filter {% if spec.is_used %}text-success{%else%}text-muted{% endif %}"></i> {{ title }}</a>
+  <ul class="dropdown-menu">
+    {% for choice in choices %}
+      <li{% if choice.selected %} class="active"{% endif %}>
+      <a href="{{ choice.query_string|iriencode }}">{{ choice.display }}</a></li>
+    {% endfor %}
+    <li class="dropdown-submenu menu-choice-date{% if choice_selected %} active{% endif %}">
+      <a>{% trans "Choice Date" %}</a>
+      <div class="popover right">
+        <div class="arrow"></div>
+        <h3 class="popover-title">{% trans "Choice Date" %}</h3>
+        <div class="popover-content">
+          <form method="get" action="" class="form-inline">
+            {{ form_params|safe }}
+            <div class="input-group">
+            <span class="input-group-addon">{% trans "YY" %}</span>
+            <input name="{{year_name}}" class="choice-year form-control" type="text" placeholder="{% trans "year" %}" size="4" value="{{year_val}}">
+            </div>
+            <div class="input-group">
+            <span class="input-group-addon">{% trans "MM" %}</span>
+            <input name="{{month_name}}" class="choice-month form-control" type="text" placeholder="{% trans "month" %}" size="2" value="{{month_val}}">
+            </div>
+            <div class="input-group">
+            <span class="input-group-addon">{% trans "DD" %}</span>
+            <input name="{{day_name}}" class="choice-day form-control" type="text" placeholder="{% trans "day" %}" size="2" value="{{day_val}}">
+            </div>
+            <button class="btn btn-success btn-block" type="submit">{% trans "Apply" %}</button>
+          </form>
+        </div>
+      </div>
+    </li>
+    <li class="dropdown-submenu menu-datetime-range{% if choice_since_until_selected %} active{% endif %}">
+      <a>{% trans "Date Range" %}</a>
+      <div class="popover right">
+        <div class="arrow"></div>
+        <h3 class="popover-title">{% trans "Select Date And Time" %}</h3>
+        <div class="popover-content">
+        <form method="get" action="" class="form-inline">
+          <div class="input-group datetimepicker">
+            <span class="input-group-addon title">{% trans "From" %}</span>
+            <input type="text" class="form-control start_input" name="{{since_name}}" value="{{since_val}}" />
+            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+          </div>
+          <div class="input-group datetimepicker">
+            <span class="input-group-addon title">{% trans "To" %}</span>
+            <input type="text" class="form-control end_input" name="{{until_name}}" value="{{until_val}}" />
+            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+          </div>
+          <button type="submit" class="btn btn-success btn-block">{% trans "Apply" %}</button>
+          {{ form_params|safe }}
+        </form>
+        </div>
+      </div>
+    </li>
+  </ul>
+</li>

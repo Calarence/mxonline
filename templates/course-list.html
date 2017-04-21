@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block title %}公开课列表 - 慕学在线网{% endblock %}
+{% load staticfiles %}
+{% block customBread %}
+    <section>
+        <div class="wp">
+            <ul class="crumbs">
+                <li><a href="index.html">首页</a>></li>
+                <li>公开课列表</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+{% block content %}
+    <section>
+        <div class="wp">
+            <div class="list" style="margin-top:0;">
+                <div class="left layout">
+                    <div class="head">
+                        <ul class="tab_header">
+                            <li class="{% if sort == '' %}active{% endif %}"><a href="?sort=">最新 </a></li>
+                            <li class="{% if sort == 'hot' %}active {% endif %}"><a href="?sort=hot">最热门</a></li>
+                            <li class="{% if sort == 'students' %}active {% endif %}"><a href="?sort=students">参与人数</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="inWindow">
+                        <div class="tab_cont " id="content">
+                            <div class="group_list">
+                                {% for course in allCourses.object_list %}
+                                    <div class="box">
+                                        <a href="course-detail.html">
+                                            <img width="280" height="350" class="scrollLoading"
+                                                 src="{{ MEDIA_URL }}{{ course.image }}"/>
+                                        </a>
+                                        <div class="des">
+                                            <a href="course-detail.html">
+                                                <h2>{{ course.name }}</h2>
+                                            </a>
+                                            <span class="fl">时长：<i class="key">{{ course.learn_times }}</i></span>
+                                            <span class="fr">学习人数：{{ course.students }}&nbsp;&nbsp;</span>
+                                        </div>
+                                        <div class="bottom">
+                                            <a href="course-detail.html"><span
+                                                    class="fl">来自{{ course.course_org }}</span></a>
+                                            <span class="star fr  notlogin
+                                        " data-favid="15">
+                                        1
+                                    </span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+
+                            </div>
+                            {% load i18n %}
+                            <div class="pageturn">
+                                <ul class="pagelist">
+                                    {% if allCourses.has_previous %}
+                                        <li class="long">
+                                            <a href="?{{ allCourses.previous_page_number.querystring }}">上一页</a>
+                                        </li>
+                                    {% endif %}
+                                    {% for page in allCourses.pages %}
+                                        {% if page %}
+                                            {% ifequal page allCourses.number %}
+                                                <li class="active"><a href="?{{ page.querystring }}"
+                                                                      class="page">{{ page }}</a>
+                                                </li>
+                                                {#                                        <span class="current page">{{ page }}</span>#}
+                                            {% else %}
+                                                <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                                            {% endifequal %}
+                                        {% else %}
+                                            ...
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if allCourses.has_next %}
+                                        <li class="long"><a
+                                                href="?{{ allCourses.next_page_number.querystring }}">下一页</a>
+                                        </li>
+
+
+                                    {% endif %}
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right layout">
+                    <div class="head">热门课程推荐</div>
+                    <div class="group_recommend">
+                        {% for hotcourse in hotCourses %}
+                            <dl>
+                                <dt>
+                                    <a target="_blank" href="">
+                                        <img width="240" height="220" class="scrollLoading"
+                                             src="{{ MEDIA_URL }}{{ hotcourse.image }}"/>
+                                    </a>
+                                </dt>
+                                <dd>
+                                    <a target="_blank" href=""><h2> {{ hotcourse.name }}</h2></a>
+                                    <span class="fl">难度：<i class="key">{{ hotcourse.get_degree_display }}</i></span>
+                                </dd>
+                            </dl>
+                        {% endfor %}
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
