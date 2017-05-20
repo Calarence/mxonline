@@ -12,7 +12,7 @@ function sendCodeChangeEmail($btn){
         cache: false,
         type: "get",
         dataType:'json',
-        url:"/users/sendemail_code/",
+        url:"/users/sendEmailCode/",
         data:$('#jsChangeEmailForm').serialize(),
         async: true,
         beforeSend:function(XMLHttpRequest){
@@ -78,10 +78,12 @@ var verify = verifyDialogSubmit(
 $(function(){
     //个人资料修改密码
     $('#jsUserResetPwd').on('click', function(){
+
         Dml.fun.showDialog('#jsResetDialog', '#jsResetPwdTips');
     });
 
     $('#jsResetPwdBtn').click(function(){
+
         $.ajax({
             cache: false,
             type: "POST",

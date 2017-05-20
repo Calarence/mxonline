@@ -5,6 +5,7 @@ __date__ = '2017/4/18 15:11'
 from django.conf.urls import url,include
 
 from .views import OrgView,AddUserAskView,OrgHomeView,OrgCourseView,OrgDescView,OrgTeacherView,AddFavouriteView
+from .views import TeacherListView,TeacherDetailView
 urlpatterns = [
     url(r'^list/$',OrgView.as_view(),name="orgList"),
     url(r'^add_ask/$',AddUserAskView.as_view(),name="addUserAsk"),
@@ -12,7 +13,9 @@ urlpatterns = [
     url(r'^course/(?P<org_id>\d+)/$',OrgCourseView.as_view(),name="orgCourse"),
     url(r'^desc/(?P<org_id>\d+)/$',OrgDescView.as_view(),name="orgDesc"),
     url(r'^orgteacher/(?P<org_id>\d+)/$',OrgTeacherView.as_view(),name="orgTeacher"),
-    url(r'^add_fav/$',AddFavouriteView.as_view(),name="addFav")
+    url(r'^add_fav/$',AddFavouriteView.as_view(),name="addFav"),
+    url(r'^teacher/list/$',TeacherListView.as_view(),name="teacherList"),
+    url(r'^teacher/detail/(?P<teacher_id>\d+)/$',TeacherDetailView.as_view(),name="teacherDetail"),
 
 
 

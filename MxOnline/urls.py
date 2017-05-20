@@ -20,11 +20,11 @@ import xadmin
 from django.views.static import serve
 from MxOnline import settings
 
-from users.views import userLogin,LoginView,RegisterView,ActiveUserView,ForgetPasswordView,ResetView,ModifyPwdView
+from users.views import userLogin,LoginView,RegisterView,ActiveUserView,ForgetPasswordView,ResetView,ModifyPwdView,IndexView
 from organizations.views import OrgView
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
-    url(r'^$',TemplateView.as_view(template_name="index.html"),name="index"),
+    url(r'^$',IndexView.as_view(),name="index"),
     url(r'^login/$',LoginView.as_view(),name="login"),
     url(r'register/$',RegisterView.as_view(),name="register"),
     url(r'^captcha/', include('captcha.urls')),
@@ -34,7 +34,11 @@ urlpatterns = [
     url(r'modifypwd/$',ModifyPwdView.as_view(),name="modifypwd"),
     url(r'^org/',include('organizations.urls',namespace='org')),
     url(r'^media/(?P<path>.*)$',serve,{"document_root":settings.MEDIA_ROOT}),
-    url(r'^course/',include('courses.urls',namespace="course"))
+    url(r'^static/(?P<path>.*)$',serve,{"document_root":settings.STATIC_ROOT}),
+    url(r'^course/',include('courses.urls',namespace="course")),
+    url(r'^users/',include('users.urls',namespace="users"))
 
 
 ]
+handler404 = 'users.views.page_not_found'
+handler500 = 'users.views.page_error'

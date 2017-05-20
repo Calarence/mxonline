@@ -15,7 +15,7 @@ class UserProfile(AbstractUser):
     gender = models.CharField(choices=(('male', '男'), ('female', '女')), default="female",max_length=10)
     address = models.CharField(max_length=100, default="")
     phone = models.CharField(max_length=11, blank=True, null=True)
-    image = models.ImageField(upload_to="image/%Y/%m", default="image/default.png")
+    image = models.ImageField(upload_to="image/%Y/%m", default="image/default.png",max_length=200,verbose_name="用户头像")
 
     class Meta:
         verbose_name = "用户信息"
@@ -24,10 +24,13 @@ class UserProfile(AbstractUser):
     def __unicode__(self):
         return self.username
 
+    def unread_nums(self):
+        from operation.models import UserMessage
+        return UserMessage.objects.all().filter(user=self.id,has_read=False).count()
 class EmailVerifyRecord(models.Model):
     code = models.CharField(max_length=20,verbose_name="验证码")
     email = models.EmailField(verbose_name="邮箱",max_length=50)
-    send_type = models.CharField(choices=(('register','注册'),('forget','忘记密码')),default="register",max_length=20,verbose_name="验证码类型")
+    send_type = models.CharField(choices=(('register','注册'),('forget','忘记密码'),('sendEmailCode','修改邮箱')),default="register",max_length=20,verbose_name="验证码类型")
     send_time = models.DateTimeField(default=datetime.now,verbose_name="发送时间")
 
     def __unicode__(self):
